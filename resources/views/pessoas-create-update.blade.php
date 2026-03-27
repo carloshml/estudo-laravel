@@ -15,7 +15,7 @@
                 voltar
             </a>
         </div>
-        <pessoas-create></pessoas-create>
+        <pessoas-create-update :id="{{ $id }}"></pessoas-create-update>
     </div>
 </body>
 

@@ -6,7 +6,7 @@ const app = createApp({});
 
 // Registrar componente
 app.component('pessoas-list', PessoasList);
-app.component('pessoas-create', PessoasCreate);
+app.component('pessoas-create-update', PessoasCreate);
 
 
 app.mount('#app');
