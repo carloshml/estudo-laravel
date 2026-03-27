@@ -10,7 +10,7 @@ class PessoaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list()
     {
         // Busca todas as pessoas no banco
         $pessoas = Pessoa::all();
@@ -18,6 +18,16 @@ class PessoaController extends Controller
         // Retorna como JSON
         return response()->json($pessoas);
     }
+
+    public function index()
+    {
+        // Busca todas as pessoas no banco
+        $pessoas = Pessoa::all();
+
+        // Retorna a view 'pessoas' passando os dados
+        return view('pessoas', compact('pessoas'));
+    }
+
 
 
     /**
