@@ -127,6 +127,11 @@ class PessoaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pessoa = Pessoa::find($id);
+        if (!$pessoa) {
+            return response()->json(['message' => 'Pessoa não encontrada'], 404);
+        }
+        $pessoa->delete();
+        return response()->json(['message' => 'Pessoa excluída com sucesso']);
     }
 }
