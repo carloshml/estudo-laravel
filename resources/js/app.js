@@ -1,13 +1,13 @@
 import './bootstrap';
 import { createApp } from 'vue';
-
-// Importar seu componente
-import Pessoas from './components/Pessoas.vue';
-
+import PessoasList from './components/PessoasList.vue';
+import PessoasCreate from './components/PessoasCreate.vue';
 const app = createApp({});
 
 // Registrar componente
-app.component('pessoas', Pessoas);
+app.component('pessoas-list', PessoasList);
+app.component('pessoas-create', PessoasCreate);
+
 
 app.mount('#app');
 
