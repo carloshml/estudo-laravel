@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex items-center justify-center">
-    <div class="text-center max-w-xl mx-auto p-8 bg-white shadow-lg rounded-xl">
+    <div id="app" class="text-center max-w-xl mx-auto p-8 bg-white shadow-lg rounded-xl">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">Bem-vindo ao Sistema</h1>
         <p class="text-gray-600 mb-8">
             Este é um projeto de estudo com Laravel e Vue para gestão de pessoas.
@@ -21,6 +21,9 @@
             </svg>
             Ir para Lista de Pessoas
         </a>
+
+        <!-- Últimas pessoas -->
+        <ultimas-pessoas></ultimas-pessoas>
     </div>
 </body>
 </html>

@@ -4,9 +4,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PessoaController;
 
-Route::post('/pessoas', [PessoaController::class, 'store']);
-Route::get('/pessoas', [PessoaController::class, 'list']);
-Route::get('/pessoas/{id}', [PessoaController::class, 'getById']);
-Route::put('/pessoas/{id}', [PessoaController::class, 'update']);
-Route::delete('/pessoas/{id}', [PessoaController::class, 'destroy']);
+Route::prefix('pessoas')->group(function () {
+    Route::get('/', [PessoaController::class, 'list']);
+    Route::get('/{id}', [PessoaController::class, 'getById']);
+    Route::post('/', [PessoaController::class, 'store']);
+    Route::put('/{id}', [PessoaController::class, 'update']);
+    Route::delete('/{id}', [PessoaController::class, 'destroy']);
+});
+
 
