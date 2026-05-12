@@ -17,8 +17,9 @@ Route::get('/pessoas/{id}/edit', function ($id) {
 Route::get('/', function () {
     return view('welcome');
 });
-
-
+Route::post('/logout', function () {
+    return;
+})->name('logout');
 Route::get('/pessoas/{id}', function ($id) {
     return view('pessoa-read', ['id' => $id]);
 });
