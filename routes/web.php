@@ -1,25 +1,39 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
-
-Route::view('/pessoas', 'pessoas-list');
-
-Route::get('/pessoas/create', function (\Illuminate\Http\Request $request) {
-    $id = $request->query('id', 0); // pega ?id=0 ou outro valor
-    return view('pessoas-create-update', compact('id'));
+// ========== ROTAS PÚBLICAS (sem login) ==========
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
 });
 
-Route::get('/pessoas/{id}/edit', function ($id) {
-    return view('pessoas-create-update', ['id' => $id]);
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::post('/logout', function () {
-    return;
-})->name('logout');
-Route::get('/pessoas/{id}', function ($id) {
-    return view('pessoa-read', ['id' => $id]);
+// ========== ROTAS PROTEGIDAS (precisa estar logado) ==========
+Route::middleware('auth')->group(function () {
+    // Logout
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    
+    // Suas rotas existentes (agora protegidas)
+    Route::view('/pessoas', 'pessoas-list');
+    
+    Route::get('/pessoas/create', function (\Illuminate\Http\Request $request) {
+        $id = $request->query('id', 0);
+        return view('pessoas-create-update', compact('id'));
+    });
+    
+    Route::get('/pessoas/{id}/edit', function ($id) {
+        return view('pessoas-create-update', ['id' => $id]);
+    });
+    
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    
+    Route::get('/pessoas/{id}', function ($id) {
+        return view('pessoa-read', ['id' => $id]);
+    });
 });
