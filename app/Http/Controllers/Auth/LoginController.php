@@ -23,12 +23,21 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
             
+            // Gerar token Sanctum para API
+            $user = Auth::user();
+            $token = $user->createToken('auth-token')->plainTextToken;
+            
             if ($request->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'redirect' => '/pessoas'
+                    'redirect' => '/pessoas',
+                    'token' => $token,
+                    'user' => $user
                 ]);
             }
+            
+            // Para web, armazenar token na sessão
+            session(['api_token' => $token]);
             
             return redirect()->intended('/pessoas');
         }
@@ -46,9 +55,25 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        // Revogar tokens do usuário (se existirem)
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            // Revogar todos os tokens do usuário (opcional, mais seguro)
+            $user->tokens()->delete();
+            
+            // Ou apenas revogar o token atual (se existir)
+            // if ($request->user() && $request->user()->currentAccessToken()) {
+            //     $request->user()->currentAccessToken()->delete();
+            // }
+        }
+        
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
+        // Limpar token da sessão
+        $request->session()->forget('api_token');
         
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);

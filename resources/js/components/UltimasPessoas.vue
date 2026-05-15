@@ -17,20 +17,37 @@
         <p v-else class="text-gray-500">Nenhuma pessoa cadastrada ainda.</p>
     </div>
 </template>
-
 <script>
 export default {
     data() {
         return { pessoas: [] }
     },
     mounted() {
-        fetch('/api/pessoas')
-            .then(res => res.json())
-            .then(data => {
-                // pega apenas os 3 últimos
-                this.pessoas = data.slice(-3).reverse();
-            })
-            .catch(err => console.error(err));
+        this.fetchUltimasPessoas();
+    },
+    methods: {
+        fetchUltimasPessoas() {
+            const token = localStorage.getItem('api_token');
+            const headers = {};
+
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            fetch('/api/pessoas', { headers })
+                .then(res => {
+                    if (res.status === 401) {
+                        localStorage.removeItem('api_token');
+                        window.location.href = '/login';
+                        throw new Error('Não autorizado');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    this.pessoas = data.slice(-3).reverse();
+                })
+                .catch(err => console.error(err));
+        }
     }
 }
 </script>

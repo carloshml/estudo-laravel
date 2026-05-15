@@ -74,16 +74,37 @@ export default {
       const url = this.id > 0 ? `/api/pessoas/${this.id}` : '/api/pessoas';
       const method = this.id > 0 ? 'PUT' : 'POST';
 
+      const token = localStorage.getItem('api_token');
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      if (csrfToken) {
+        headers['X-CSRF-TOKEN'] = csrfToken;
+      }
+
       const requisicao = {
         method,
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers,
         body: JSON.stringify(this.novaPessoa)
       }
 
-      console.log(' requisicao :::: ', requisicao)
+      console.log('requisicao :::: ', requisicao)
 
       fetch(url, requisicao)
         .then(async res => {
+          if (res.status === 401) {
+            localStorage.removeItem('api_token');
+            window.location.href = '/login';
+            throw new Error('Não autorizado');
+          }
           if (!res.ok) {
             const errorData = await res.json();
             this.erros = errorData.errors || {};

@@ -143,8 +143,23 @@ export default {
       this.loading = true
       this.error = null
 
-      fetch('/api/pessoas')
+      const token = localStorage.getItem('api_token');
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      fetch('/api/pessoas', { headers })
         .then(res => {
+          if (res.status === 401) {
+            localStorage.removeItem('api_token');
+            window.location.href = '/login';
+            throw new Error('Não autorizado');
+          }
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}: ${res.statusText}`)
           }
@@ -182,19 +197,40 @@ export default {
 
     deletePessoa(id) {
       if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
-        fetch(`/api/pessoas/${id}`, { method: 'DELETE' })
+        const token = localStorage.getItem('api_token');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+        const headers = {};
+
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        if (csrfToken) {
+          headers['X-CSRF-TOKEN'] = csrfToken;
+        }
+
+        fetch(`/api/pessoas/${id}`, {
+          method: 'DELETE',
+          headers
+        })
           .then(res => {
+            if (res.status === 401) {
+              localStorage.removeItem('api_token');
+              window.location.href = '/login';
+              throw new Error('Não autorizado');
+            }
             if (res.ok) {
-              this.fetchPessoas() // Reload the list
-              alert('Pessoa excluída com sucesso!')
+              this.fetchPessoas();
+              alert('Pessoa excluída com sucesso!');
             } else {
-              throw new Error('Erro ao excluir')
+              throw new Error('Erro ao excluir');
             }
           })
           .catch(err => {
-            console.error('Error deleting pessoa:', err)
-            alert('Erro ao excluir pessoa. Tente novamente.')
-          })
+            console.error('Error deleting pessoa:', err);
+            alert('Erro ao excluir pessoa. Tente novamente.');
+          });
       }
     }
   }

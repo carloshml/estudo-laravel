@@ -87,7 +87,15 @@ export default {
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Login successful
+                    // Armazenar token do Sanctum
+                    if (data.token) {
+                        localStorage.setItem('api_token', data.token);
+                        // Configurar axios para usar o token
+                        if (window.axios) {
+                            window.axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+                        }
+                    }
+                    
                     window.location.href = data.redirect || '/pessoas';
                 } else {
                     this.errorMessage = data.message || 'Credenciais inválidas. Verifique seu e-mail e senha.';

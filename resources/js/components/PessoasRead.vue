@@ -32,7 +32,7 @@
 
       <!-- Actions -->
       <div class="flex justify-end gap-4">
-      
+
       </div>
     </form>
   </div>
@@ -54,9 +54,22 @@ export default {
   },
   mounted() {
     if (this.id > 0) {
-      // busca pessoa existente
-      fetch(`/api/pessoas/${this.id}`)
-        .then(res => res.json())
+      const token = localStorage.getItem('api_token');
+      const headers = {};
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      fetch(`/api/pessoas/${this.id}`, { headers })
+        .then(res => {
+          if (res.status === 401) {
+            localStorage.removeItem('api_token');
+            window.location.href = '/login';
+            throw new Error('Não autorizado');
+          }
+          return res.json();
+        })
         .then(data => {
           this.novaPessoa = {
             nome: data.nome,
@@ -66,9 +79,6 @@ export default {
         })
         .catch(err => console.error(err));
     }
-  },
-  methods: {
-
   }
 }
 </script>
