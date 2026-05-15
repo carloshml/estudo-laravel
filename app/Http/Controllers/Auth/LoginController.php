@@ -20,10 +20,23 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        // O Auth::attempt já vai funcionar porque seu modelo tem o casts
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
+            
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => '/pessoas'
+                ]);
+            }
+            
             return redirect()->intended('/pessoas');
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'As credenciais informadas não correspondem aos nossos registros.'
+            ], 401);
         }
 
         return back()->withErrors([
@@ -36,6 +49,11 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+        
         return redirect('/');
     }
 }

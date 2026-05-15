@@ -16,20 +16,34 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = validator($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
-        // Não precisa de Hash::make() porque seu modelo já tem casts
+        if ($validator->fails()) {
+            if ($request->wantsJson()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password, // ← puro, o casts resolve
+            'password' => $request->password,
         ]);
 
         Auth::login($user);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'redirect' => '/pessoas',
+                'user' => $user
+            ]);
+        }
 
         return redirect('/pessoas');
     }
