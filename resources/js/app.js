@@ -42,8 +42,6 @@ window.apiFetch = function(url, options = {}) {
 const app = createApp({});
 
 // Registrar componentes
-app.component('auth-login', AuthLogin);
-app.component('auth-register', AuthRegister);
 app.component('pessoas-list', PessoasList);
 app.component('pessoas-create-update', PessoasCreate);
 app.component('pessoas-read', PessoasRead);
