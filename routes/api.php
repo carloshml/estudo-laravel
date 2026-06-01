@@ -7,11 +7,17 @@ use App\Http\Controllers\PessoaController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('pessoas')->group(function () {
         Route::get('/', [PessoaController::class, 'list']);
+        Route::get('/stats', function() {
+            $pessoas = \App\Models\Pessoa::all();
+            return response()->json([
+                'total' => $pessoas->count(),
+                'media_idade' => $pessoas->avg('idade'),
+                'documentos_unicos' => $pessoas->unique('documento')->count()
+            ]);
+        });
         Route::get('/{id}', [PessoaController::class, 'getById']);
         Route::post('/', [PessoaController::class, 'store']);
         Route::put('/{id}', [PessoaController::class, 'update']);
         Route::delete('/{id}', [PessoaController::class, 'destroy']);
     });
 });
-
-
