@@ -3,7 +3,7 @@
 @section('title', 'Dashboard | Meu Sistema')
 
 @section('content')
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
+     <div id="app" class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Welcome Card -->
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
             <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-4">
