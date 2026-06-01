@@ -96,7 +96,7 @@ export default {
                         }
                     }
                     
-                    window.location.href = data.redirect || '/pessoas';
+                    window.location.href = data.redirect || '/dashboard';
                 } else {
                     this.errorMessage = data.message || 'Credenciais inválidas. Verifique seu e-mail e senha.';
                 }

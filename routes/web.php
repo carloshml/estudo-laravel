@@ -17,23 +17,28 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('welcome');
+    })->name('dashboard');
+    
     // Suas rotas existentes (agora protegidas)
-    Route::view('/pessoas', 'pessoas-list');
+    Route::view('/pessoas', 'pessoas-list')->name('pessoas.index');
     
     Route::get('/pessoas/create', function (\Illuminate\Http\Request $request) {
         $id = $request->query('id', 0);
         return view('pessoas-create-update', compact('id'));
-    });
+    })->name('pessoas.create');
     
     Route::get('/pessoas/{id}/edit', function ($id) {
         return view('pessoas-create-update', ['id' => $id]);
-    });
+    })->name('pessoas.edit');
     
     Route::get('/', function () {
-        return view('welcome');
+        return redirect()->route('dashboard');
     });
     
     Route::get('/pessoas/{id}', function ($id) {
         return view('pessoa-read', ['id' => $id]);
-    });
+    })->name('pessoas.show');
 });

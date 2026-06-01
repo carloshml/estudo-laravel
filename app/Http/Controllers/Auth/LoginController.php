@@ -30,7 +30,7 @@ class LoginController extends Controller
             if ($request->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'redirect' => '/pessoas',
+                    'redirect' => '/dashboard', // Mudado para dashboard
                     'token' => $token,
                     'user' => $user
                 ]);
@@ -39,7 +39,7 @@ class LoginController extends Controller
             // Para web, armazenar token na sessão
             session(['api_token' => $token]);
             
-            return redirect()->intended('/pessoas');
+            return redirect()->intended('/dashboard'); // Mudado para dashboard
         }
 
         if ($request->wantsJson()) {
@@ -58,14 +58,7 @@ class LoginController extends Controller
         // Revogar tokens do usuário (se existirem)
         if (Auth::check()) {
             $user = Auth::user();
-            
-            // Revogar todos os tokens do usuário (opcional, mais seguro)
             $user->tokens()->delete();
-            
-            // Ou apenas revogar o token atual (se existir)
-            // if ($request->user() && $request->user()->currentAccessToken()) {
-            //     $request->user()->currentAccessToken()->delete();
-            // }
         }
         
         Auth::logout();
@@ -79,6 +72,6 @@ class LoginController extends Controller
             return response()->json(['success' => true]);
         }
         
-        return redirect('/');
+        return redirect('/login');
     }
 }

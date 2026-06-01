@@ -36,15 +36,20 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
+        
+        // Gerar token Sanctum para API
+        $token = $user->createToken('auth-token')->plainTextToken;
+        session(['api_token' => $token]);
 
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'redirect' => '/pessoas',
-                'user' => $user
+                'redirect' => '/dashboard',
+                'user' => $user,
+                'token' => $token
             ]);
         }
 
-        return redirect('/pessoas');
+        return redirect('/dashboard');
     }
 }
