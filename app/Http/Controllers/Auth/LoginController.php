@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -20,17 +21,50 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        // Verificar se o usuário existe e está ativo
+        $user = \App\Models\User::where('email', $request->email)->first();
+        
+        if (!$user) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Usuário não encontrado.'
+                ], 401);
+            }
+            return back()->withErrors([
+                'email' => 'Usuário não encontrado.',
+            ])->onlyInput('email');
+        }
+
+        // Verificar se o usuário está ativo
+        if (!$user->is_active) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Sua conta está inativa. Entre em contato com o administrador.'
+                ], 403);
+            }
+            return back()->withErrors([
+                'email' => 'Sua conta está inativa. Entre em contato com o administrador.',
+            ])->onlyInput('email');
+        }
+
+        // Tentar fazer login
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
             
             // Gerar token Sanctum para API
             $user = Auth::user();
+            
+            // Atualizar last_login_at
+            $user->update([
+                'last_login_at' => now()
+            ]);
+            
             $token = $user->createToken('auth-token')->plainTextToken;
             
             if ($request->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'redirect' => '/dashboard', // Mudado para dashboard
+                    'redirect' => '/dashboard',
                     'token' => $token,
                     'user' => $user
                 ]);
@@ -39,7 +73,7 @@ class LoginController extends Controller
             // Para web, armazenar token na sessão
             session(['api_token' => $token]);
             
-            return redirect()->intended('/dashboard'); // Mudado para dashboard
+            return redirect()->intended('/dashboard');
         }
 
         if ($request->wantsJson()) {
@@ -68,6 +102,7 @@ class LoginController extends Controller
         // Limpar token da sessão
         $request->session()->forget('api_token');
         
+        // Limpar token do localStorage via JavaScript (opcional)
         if ($request->wantsJson()) {
             return response()->json(['success' => true]);
         }

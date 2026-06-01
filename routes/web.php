@@ -22,23 +22,37 @@ Route::middleware('auth')->group(function () {
         return view('welcome');
     })->name('dashboard');
     
-    // Suas rotas existentes (agora protegidas)
+    // Rotas de Pessoas
     Route::view('/pessoas', 'pessoas-list')->name('pessoas.index');
-    
-    Route::get('/pessoas/create', function (\Illuminate\Http\Request $request) {
-        $id = $request->query('id', 0);
-        return view('pessoas-create-update', compact('id'));
+    Route::get('/pessoas/create', function () {
+        return view('pessoas-create-update', ['id' => 0]);
     })->name('pessoas.create');
-    
     Route::get('/pessoas/{id}/edit', function ($id) {
         return view('pessoas-create-update', ['id' => $id]);
     })->name('pessoas.edit');
+    Route::get('/pessoas/{id}', function ($id) {
+        return view('pessoa-read', ['id' => $id]);
+    })->name('pessoas.show');
+    
+    // Rotas de Usuários
+    Route::view('/usuarios', 'users-list')->name('users.index');
+    Route::get('/usuarios/create', function () {
+        return view('users-create-update', ['id' => 0]);
+    })->name('users.create');
+    Route::get('/usuarios/{id}/edit', function ($id) {
+        return view('users-create-update', ['id' => $id]);
+    })->name('users.edit');
+    Route::get('/usuarios/{id}', function ($id) {
+        return view('user-read', ['id' => $id]);
+    })->name('users.show');
+    Route::get('/perfil', function () {
+        return view('user-profile', ['id' => auth()->id()]);
+    })->name('profile');
+    Route::get('/atividades', function () {
+        return view('activities');
+    })->name('activities');
     
     Route::get('/', function () {
         return redirect()->route('dashboard');
     });
-    
-    Route::get('/pessoas/{id}', function ($id) {
-        return view('pessoa-read', ['id' => $id]);
-    })->name('pessoas.show');
 });

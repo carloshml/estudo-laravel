@@ -102,6 +102,47 @@
                             </div>
                         </div>
                     </a>
+                    <!-- Admin Card (visível apenas para admin/manager) -->
+                    @if(auth()->user()->isAdmin() || auth()->user()->isManager())
+                    <a href="{{ route('users.index') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-purple-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Administração</h3>
+                            <p class="text-gray-600">Gerencie usuários e veja logs do sistema</p>
+                            <div class="mt-4 text-purple-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Acessar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                    @endif
+
+                    <!-- Atividades Card -->
+                    @if(auth()->user()->isAdmin() || auth()->user()->isManager())
+                    <a href="{{ route('activities') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Atividades</h3>
+                            <p class="text-gray-600">Veja o log de atividades do sistema</p>
+                            <div class="mt-4 text-orange-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Visualizar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                    @endif
                     
                     <!-- Perfil Card -->
                     <div class="bg-white border-2 border-gray-200 rounded-xl p-6">

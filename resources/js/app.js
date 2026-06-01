@@ -1,9 +1,16 @@
 import './bootstrap';
 import { createApp } from 'vue';
+
+// Importar componentes
 import PessoasList from './components/PessoasList.vue';
 import PessoasCreate from './components/PessoasCreate.vue';
 import PessoasRead from './components/PessoasRead.vue';
 import UltimasPessoas from './components/UltimasPessoas.vue';
+import UsersList from './components/UsersList.vue';
+import UsersCreateUpdate from './components/UsersCreateUpdate.vue';
+import UserRead from './components/UserRead.vue';
+import UserProfile from './components/UserProfile.vue';
+import ActivitiesLog from './components/ActivitiesLog.vue';
 import AuthLogin from './components/AuthLogin.vue';
 import AuthRegister from './components/AuthRegister.vue';
 
@@ -35,10 +42,17 @@ window.apiFetch = function(url, options = {}) {
 const app = createApp({});
 
 // Registrar componentes
+app.component('auth-login', AuthLogin);
+app.component('auth-register', AuthRegister);
 app.component('pessoas-list', PessoasList);
 app.component('pessoas-create-update', PessoasCreate);
 app.component('pessoas-read', PessoasRead);
 app.component('ultimas-pessoas', UltimasPessoas);
+app.component('users-list', UsersList);
+app.component('users-create-update', UsersCreateUpdate);
+app.component('user-read', UserRead);
+app.component('user-profile', UserProfile);
+app.component('activities-log', ActivitiesLog);
 app.component('auth-login', AuthLogin);
 app.component('auth-register', AuthRegister);
 
