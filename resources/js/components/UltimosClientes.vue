@@ -1,18 +1,17 @@
-<!-- resources/js/components/UltimasPessoas.vue -->
 <template>
     <div class="mt-8">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold text-gray-800">Últimas Atividades</h2>
             <div class="flex gap-2">
                 <button 
-                    @click="activeTab = 'pessoas'"
+                    @click="activeTab = 'clientes'"
                     :class="[
                         'px-4 py-2 rounded-lg transition',
-                        activeTab === 'pessoas' 
+                        activeTab === 'clientes' 
                             ? 'bg-green-600 text-white' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                     ]">
-                    Últimas Pessoas
+                    Últimos Clientes
                 </button>
                 <button 
                     @click="activeTab = 'usuarios'"
@@ -28,11 +27,11 @@
         </div>
 
         <!-- Lista de Pessoas -->
-        <div v-if="activeTab === 'pessoas'">
-            <ul v-if="pessoas.length > 0" class="space-y-3">
-                <li v-for="pessoa in pessoas" :key="pessoa.id"
+        <div v-if="activeTab === 'clientes'">
+            <ul v-if="clientes.length > 0" class="space-y-3">
+                <li v-for="pessoa in clientes" :key="pessoa.id"
                     class="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <a :href="`/pessoas/${pessoa.id}`" class="flex-1">
+                    <a :href="`/clientes/${pessoa.id}`" class="flex-1">
                         <div>
                             <p class="text-gray-900 font-medium">{{ pessoa.nome }}</p>
                             <p class="text-gray-600 text-sm">{{ pessoa.idade }} anos - {{ formatDocument(pessoa.documento) }}</p>
@@ -43,7 +42,7 @@
                     </div>
                 </li>
             </ul>
-            <p v-else class="text-gray-500 text-center py-8">Nenhuma pessoa cadastrada ainda.</p>
+            <p v-else class="text-gray-500 text-center py-8">Nenhum cliente cadastrado ainda.</p>
         </div>
 
         <!-- Lista de Usuários -->
@@ -80,17 +79,17 @@
 export default {
     data() {
         return { 
-            pessoas: [],
+            clientes: [],
             usuarios: [],
-            activeTab: 'pessoas'
+            activeTab: 'clientes'
         }
     },
     mounted() {
-        this.fetchUltimasPessoas();
+        this.fetchUltimosClientes();
         this.fetchUltimosUsuarios();
     },
     methods: {
-        fetchUltimasPessoas() {
+        fetchUltimosClientes() {
             const token = localStorage.getItem('api_token');
             const headers = {};
 
@@ -98,7 +97,7 @@ export default {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            fetch('/api/pessoas', { headers })
+            fetch('/api/clientes/', { headers })
                 .then(res => {
                     if (res.status === 401) {
                         localStorage.removeItem('api_token');
@@ -108,7 +107,7 @@ export default {
                     return res.json();
                 })
                 .then(data => {
-                    this.pessoas = data.slice(-5).reverse();
+                    this.clientes = data.slice(-5).reverse();
                 })
                 .catch(err => console.error(err));
         },
