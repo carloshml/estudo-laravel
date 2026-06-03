@@ -52,6 +52,42 @@ Route::middleware('auth')->group(function () {
         return view('activities');
     })->name('activities');
     
+    // Rotas de Itens
+    Route::view('/itens', 'itens-list')->name('itens.index');
+    Route::get('/itens/create', function () {
+        return view('itens-create-update', ['id' => 0]);
+    })->name('itens.create');
+    Route::get('/itens/{id}/edit', function ($id) {
+        return view('itens-create-update', ['id' => $id]);
+    })->name('itens.edit');
+    Route::get('/itens/{id}', function ($id) {
+        return view('item-read', ['id' => $id]);
+    })->name('itens.show');
+
+    // Rotas de Locação de Item
+    Route::view('/locacoes', 'locacoes-list')->name('locacoes.index');
+    Route::get('/locacoes/create', function () {
+        return view('locacoes-create-update', ['id' => 0]);
+    })->name('locacoes.create');
+    Route::get('/locacoes/{id}/edit', function ($id) {
+        return view('locacoes-create-update', ['id' => $id]);
+    })->name('locacoes.edit');
+    Route::get('/locacoes/{id}', function ($id) {
+        return view('locacao-read', ['id' => $id]);
+    })->name('locacoes.show');
+    
+    // Rotas de Locação de Itens
+    Route::view('/locacoes', 'locacoes-list')->name('locacoes.index');
+    Route::get('/locacoes/create', function () {
+        return view('locacoes-create-update', ['id' => 0]);
+    })->name('locacoes.create');
+    Route::get('/locacoes/{id}/edit', function ($id) {
+        return view('locacoes-create-update', ['id' => $id]);
+    })->name('locacoes.edit');
+    Route::get('/locacoes/{id}', function ($id) {
+        return view('locacao-read', ['id' => $id]);
+    })->name('locacoes.show');
+    
     Route::get('/', function () {
         return redirect()->route('dashboard');
     });

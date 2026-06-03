@@ -8,4 +8,8 @@ class Pessoa extends Model
 {
     protected $fillable = ['nome', 'idade', 'documento', 'foto'];
 
+    public function locacoes()
+    {
+        return $this->hasMany(LocacaoItem::class);
+    }
 }

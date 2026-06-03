@@ -13,6 +13,12 @@ import UserProfile from './components/UserProfile.vue';
 import ActivitiesLog from './components/ActivitiesLog.vue';
 import AuthLogin from './components/AuthLogin.vue';
 import AuthRegister from './components/AuthRegister.vue';
+import ItemsList from './components/ItemsList.vue';
+import ItemsCreate from './components/ItemsCreate.vue';
+import ItemsRead from './components/ItemsRead.vue';
+import LocacoesList from './components/LocacoesList.vue';
+import LocacoesCreate from './components/LocacoesCreate.vue';
+import LocacaoRead from './components/LocacaoRead.vue';
 
 // Função helper para fazer fetch com CSRF
 window.apiFetch = function(url, options = {}) {
@@ -53,5 +59,11 @@ app.component('user-profile', UserProfile);
 app.component('activities-log', ActivitiesLog);
 app.component('auth-login', AuthLogin);
 app.component('auth-register', AuthRegister);
+app.component('items-list', ItemsList);
+app.component('items-create', ItemsCreate);
+app.component('items-read', ItemsRead);
+app.component('locacoes-list', LocacoesList);
+app.component('locacoes-create', LocacoesCreate);
+app.component('locacao-read', LocacaoRead);
 
 app.mount('#app');

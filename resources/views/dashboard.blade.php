@@ -65,44 +65,8 @@
                 
                 <!-- Menu Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Pessoas Card -->
-                    <a href="{{ route('pessoas.index') }}" class="group">
-                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-green-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Pessoas</h3>
-                            <p class="text-gray-600">Gerencie todas as pessoas cadastradas no sistema</p>
-                            <div class="mt-4 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-                                Acessar
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <!-- Nova Pessoa Card -->
-                    <a href="{{ route('pessoas.create') }}" class="group">
-                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-blue-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Nova Pessoa</h3>
-                            <p class="text-gray-600">Adicione uma nova pessoa ao sistema</p>
-                            <div class="mt-4 text-blue-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-                                Cadastrar
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Admin Card (visível apenas para admin/manager) -->
+
+                <!-- Admin Card (visível apenas para admin/manager) -->
                     @if(auth()->user()->isAdmin() || auth()->user()->isManager())
                     <a href="{{ route('users.index') }}" class="group">
                         <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-purple-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -143,6 +107,88 @@
                         </div>
                     </a>
                     @endif
+                    
+                    <!-- Pessoas Card -->
+                    <a href="{{ route('pessoas.index') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-green-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Pessoas</h3>
+                            <p class="text-gray-600">Gerencie todas as pessoas cadastradas no sistema</p>
+                            <div class="mt-4 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Acessar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Nova Pessoa Card -->
+                    <a href="{{ route('pessoas.create') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-blue-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Nova Pessoa</h3>
+                            <p class="text-gray-600">Adicione uma nova pessoa ao sistema</p>
+                            <div class="mt-4 text-blue-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Cadastrar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Itens Card -->
+                    <a href="{{ route('itens.index') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-teal-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-teal-500 to-teal-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Itens</h3>
+                            <p class="text-gray-600">Gerencie os itens cadastrados no sistema</p>
+                            <div class="mt-4 text-teal-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Acessar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    
+
+                   
+
+                    <!-- Locações Card -->
+                    <a href="{{ route('locacoes.index') }}" class="group">
+                        <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-indigo-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Locações</h3>
+                            <p class="text-gray-600">Locar itens por período com controle de ocupação</p>
+                            <div class="mt-4 text-indigo-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Acessar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+
+                    
                     
                     <!-- Perfil Card -->
                     <div class="bg-white border-2 border-gray-200 rounded-xl p-6">
