@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     
     // Dashboard
     Route::get('/dashboard', function () {
-        return view('welcome');
+        return view('dashboard');
     })->name('dashboard');
     
     // Rotas de Pessoas
