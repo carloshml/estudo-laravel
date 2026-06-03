@@ -15,12 +15,12 @@
       </div>
 
       <div>
-        <label class="block text-gray-700 font-medium mb-1">Pessoa Responsável</label>
-        <select v-model="form.pessoa_id" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300">
-          <option value="">Selecione uma pessoa</option>
-          <option v-for="p in pessoas" :key="p.id" :value="p.id">{{ p.nome }}</option>
+        <label class="block text-gray-700 font-medium mb-1">Cliente Responsável</label>
+        <select v-model="form.cliente_id" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300">
+          <option value="">Selecione um cliente</option>
+          <option v-for="c in clientes" :key="c.id" :value="c.id">{{ c.nome }}</option>
         </select>
-        <p v-if="erros.pessoa_id" class="text-red-600 text-sm mt-1">{{ erros.pessoa_id[0] }}</p>
+        <p v-if="erros.cliente_id" class="text-red-600 text-sm mt-1">{{ erros.cliente_id[0] }}</p>
       </div>
 
       <div>
@@ -65,8 +65,8 @@ export default {
   props: { id: { type: Number, default: 0 } },
   data() {
     return {
-      form: { item_id: '', pessoa_id: '', location: '', inicio: '', fim: '', status: 'ativo' },
-      items: [], pessoas: [], erros: {}
+      form: { item_id: '', cliente_id: '', location: '', inicio: '', fim: '', status: 'ativo' },
+      items: [], clientes: [], erros: {}
     }
   },
   mounted() {
@@ -86,10 +86,10 @@ export default {
       const h = this.getHeaders();
       Promise.all([
         fetch('/api/items', { headers: h }).then(r => r.json()),
-        fetch('/api/pessoas', { headers: h }).then(r => r.json()),
-      ]).then(([items, pessoas]) => {
+        fetch('/api/clientes', { headers: h }).then(r => r.json()),
+      ]).then(([items, clientes]) => {
         this.items = items;
-        this.pessoas = pessoas;
+        this.clientes = clientes;
       });
     },
     fetchData() {
@@ -98,7 +98,7 @@ export default {
         .then(data => {
           this.form = {
             item_id: data.item_id,
-            pessoa_id: data.pessoa_id,
+            cliente_id: data.cliente_id,
             location: data.location,
             inicio: data.inicio ? data.inicio.slice(0, 16) : '',
             fim: data.fim ? data.fim.slice(0, 16) : '',

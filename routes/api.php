@@ -1,28 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LocacaoItemController;
 
 // Rotas protegidas pelo Sanctum
 Route::middleware('auth:sanctum')->group(function () {
-    // Rotas de Pessoas
-    Route::prefix('pessoas')->group(function () {
-        Route::get('/', [PessoaController::class, 'list']);
+    // Rotas de Clientes
+    Route::prefix('clientes')->group(function () {
+        Route::get('/', [ClienteController::class, 'list']);
         Route::get('/stats', function() {
-            $pessoas = \App\Models\Pessoa::all();
+            $clientes = \App\Models\Cliente::all();
             return response()->json([
-                'total' => $pessoas->count(),
-                'media_idade' => $pessoas->avg('idade'),
-                'documentos_unicos' => $pessoas->unique('documento')->count()
+                'total' => $clientes->count(),
+                'media_idade' => $clientes->avg('idade'),
+                'documentos_unicos' => $clientes->unique('documento')->count()
             ]);
         });
-        Route::get('/{id}', [PessoaController::class, 'getById']);
-        Route::post('/', [PessoaController::class, 'store']);
-        Route::put('/{id}', [PessoaController::class, 'update']);
-        Route::delete('/{id}', [PessoaController::class, 'destroy']);
+        Route::get('/{id}', [ClienteController::class, 'getById']);
+        Route::post('/', [ClienteController::class, 'store']);
+        Route::put('/{id}', [ClienteController::class, 'update']);
+        Route::delete('/{id}', [ClienteController::class, 'destroy']);
     });
     
     // Rotas de Usuários

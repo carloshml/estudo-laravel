@@ -38,7 +38,7 @@
           <thead class="bg-gray-50 border-b-2 border-gray-200">
             <tr>
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Item</th>
-              <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Pessoa Responsável</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Cliente Responsável</th>
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Localização</th>
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Início</th>
               <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Fim</th>
@@ -49,7 +49,7 @@
           <tbody class="divide-y divide-gray-200">
             <tr v-for="loc in filteredItems" :key="loc.id" class="hover:bg-gray-50 transition-colors">
               <td class="px-4 py-3 font-medium text-gray-900">{{ loc.item ? loc.item.name : '—' }}</td>
-              <td class="px-4 py-3 text-gray-700">{{ loc.pessoa ? loc.pessoa.nome : '—' }}</td>
+              <td class="px-4 py-3 text-gray-700">{{ loc.cliente ? loc.cliente.nome : '—' }}</td>
               <td class="px-4 py-3 text-gray-700">{{ loc.location }}</td>
               <td class="px-4 py-3 text-gray-600 text-sm">{{ formatDate(loc.inicio) }}</td>
               <td class="px-4 py-3 text-gray-600 text-sm">{{ formatDate(loc.fim) }}</td>
@@ -94,7 +94,7 @@ export default {
         const s = this.search.toLowerCase();
         filtered = filtered.filter(l =>
           (l.item && l.item.name.toLowerCase().includes(s)) ||
-          (l.pessoa && l.pessoa.nome.toLowerCase().includes(s)) ||
+          (l.cliente && l.cliente.nome.toLowerCase().includes(s)) ||
           l.location.toLowerCase().includes(s)
         );
       }

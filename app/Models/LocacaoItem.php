@@ -8,7 +8,7 @@ class LocacaoItem extends Model
 {
     protected $table = 'locacao_item';
 
-    protected $fillable = ['item_id', 'pessoa_id', 'location', 'inicio', 'fim', 'status'];
+    protected $fillable = ['item_id', 'cliente_id', 'location', 'inicio', 'fim', 'status'];
 
     protected $casts = [
         'inicio' => 'datetime',
@@ -20,8 +20,8 @@ class LocacaoItem extends Model
         return $this->belongsTo(Item::class);
     }
 
-    public function pessoa()
+    public function cliente()
     {
-        return $this->belongsTo(Pessoa::class);
+        return $this->belongsTo(Cliente::class);
     }
 }

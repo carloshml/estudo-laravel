@@ -22,17 +22,17 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
     
-    // Rotas de Pessoas
-    Route::view('/pessoas', 'pessoas-list')->name('pessoas.index');
-    Route::get('/pessoas/create', function () {
-        return view('pessoas-create-update', ['id' => 0]);
-    })->name('pessoas.create');
-    Route::get('/pessoas/{id}/edit', function ($id) {
-        return view('pessoas-create-update', ['id' => $id]);
-    })->name('pessoas.edit');
-    Route::get('/pessoas/{id}', function ($id) {
-        return view('pessoa-read', ['id' => $id]);
-    })->name('pessoas.show');
+    // Rotas de Clientes
+    Route::view('/clientes', 'clientes-list')->name('clientes.index');
+    Route::get('/clientes/create', function () {
+        return view('clientes-create-update', ['id' => 0]);
+    })->name('clientes.create');
+    Route::get('/clientes/{id}/edit', function ($id) {
+        return view('clientes-create-update', ['id' => $id]);
+    })->name('clientes.edit');
+    Route::get('/clientes/{id}', function ($id) {
+        return view('cliente-read', ['id' => $id]);
+    })->name('clientes.show');
     
     // Rotas de Usuários
     Route::view('/usuarios', 'users-list')->name('users.index');
@@ -65,18 +65,6 @@ Route::middleware('auth')->group(function () {
     })->name('itens.show');
 
     // Rotas de Locação de Item
-    Route::view('/locacoes', 'locacoes-list')->name('locacoes.index');
-    Route::get('/locacoes/create', function () {
-        return view('locacoes-create-update', ['id' => 0]);
-    })->name('locacoes.create');
-    Route::get('/locacoes/{id}/edit', function ($id) {
-        return view('locacoes-create-update', ['id' => $id]);
-    })->name('locacoes.edit');
-    Route::get('/locacoes/{id}', function ($id) {
-        return view('locacao-read', ['id' => $id]);
-    })->name('locacoes.show');
-    
-    // Rotas de Locação de Itens
     Route::view('/locacoes', 'locacoes-list')->name('locacoes.index');
     Route::get('/locacoes/create', function () {
         return view('locacoes-create-update', ['id' => 0]);

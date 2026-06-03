@@ -9,13 +9,13 @@ class LocacaoItemController extends Controller
 {
     public function list()
     {
-        $locacoes = LocacaoItem::with(['item', 'pessoa'])->orderBy('inicio', 'desc')->get();
+        $locacoes = LocacaoItem::with(['item', 'cliente'])->orderBy('inicio', 'desc')->get();
         return response()->json($locacoes);
     }
 
     public function getById($id)
     {
-        $locacao = LocacaoItem::with(['item', 'pessoa'])->find($id);
+        $locacao = LocacaoItem::with(['item', 'cliente'])->find($id);
 
         if (!$locacao) {
             return response()->json(['message' => 'Locação não encontrada'], 404);
@@ -27,24 +27,24 @@ class LocacaoItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'item_id'   => 'required|exists:items,id',
-            'pessoa_id' => 'required|exists:pessoas,id',
-            'location'  => 'required|string|max:255',
-            'inicio'    => 'required|date',
-            'fim'       => 'required|date|after:inicio',
-            'status'    => 'nullable|in:ativo,finalizado,cancelado',
+            'item_id'    => 'required|exists:items,id',
+            'cliente_id' => 'required|exists:clientes,id',
+            'location'   => 'required|string|max:255',
+            'inicio'     => 'required|date',
+            'fim'        => 'required|date|after:inicio',
+            'status'     => 'nullable|in:ativo,finalizado,cancelado',
         ]);
 
         $locacao = LocacaoItem::create([
-            'item_id'   => $request->item_id,
-            'pessoa_id' => $request->pessoa_id,
-            'location'  => $request->location,
-            'inicio'    => $request->inicio,
-            'fim'       => $request->fim,
-            'status'    => $request->status ?? 'ativo',
+            'item_id'    => $request->item_id,
+            'cliente_id' => $request->cliente_id,
+            'location'   => $request->location,
+            'inicio'     => $request->inicio,
+            'fim'        => $request->fim,
+            'status'     => $request->status ?? 'ativo',
         ]);
 
-        return response()->json($locacao->load(['item', 'pessoa']), 201);
+        return response()->json($locacao->load(['item', 'cliente']), 201);
     }
 
     public function update(Request $request, string $id)
@@ -56,24 +56,24 @@ class LocacaoItemController extends Controller
         }
 
         $request->validate([
-            'item_id'   => 'required|exists:items,id',
-            'pessoa_id' => 'required|exists:pessoas,id',
-            'location'  => 'required|string|max:255',
-            'inicio'    => 'required|date',
-            'fim'       => 'required|date|after:inicio',
-            'status'    => 'nullable|in:ativo,finalizado,cancelado',
+            'item_id'    => 'required|exists:items,id',
+            'cliente_id' => 'required|exists:clientes,id',
+            'location'   => 'required|string|max:255',
+            'inicio'     => 'required|date',
+            'fim'        => 'required|date|after:inicio',
+            'status'     => 'nullable|in:ativo,finalizado,cancelado',
         ]);
 
         $locacao->update([
-            'item_id'   => $request->item_id,
-            'pessoa_id' => $request->pessoa_id,
-            'location'  => $request->location,
-            'inicio'    => $request->inicio,
-            'fim'       => $request->fim,
-            'status'    => $request->status ?? $locacao->status,
+            'item_id'    => $request->item_id,
+            'cliente_id' => $request->cliente_id,
+            'location'   => $request->location,
+            'inicio'     => $request->inicio,
+            'fim'        => $request->fim,
+            'status'     => $request->status ?? $locacao->status,
         ]);
 
-        return response()->json($locacao->load(['item', 'pessoa']));
+        return response()->json($locacao->load(['item', 'cliente']));
     }
 
     public function destroy(string $id)
@@ -101,6 +101,6 @@ class LocacaoItemController extends Controller
         ]);
 
         $locacao->update(['status' => $request->status]);
-        return response()->json($locacao->load(['item', 'pessoa']));
+        return response()->json($locacao->load(['item', 'cliente']));
     }
 }

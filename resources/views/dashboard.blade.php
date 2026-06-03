@@ -10,12 +10,12 @@
                 <h1 class="text-2xl font-bold text-white">
                     Bem-vindo, {{ auth()->user()->name }}!
                 </h1>
-                <p class="text-green-100 mt-1">Sistema de Gestão de Pessoas</p>
+                <p class="text-green-100 mt-1">Sistema de Gestão</p>
             </div>
             
             <div class="p-8">
                 <p class="text-gray-600 text-lg mb-6">
-                    Este é um projeto de estudo com Laravel e Vue para gestão de pessoas.
+                    Este é um projeto de estudo com Laravel e Vue para gestão de clientes e itens.
                 </p>
                 
                 <!-- Stats Cards -->
@@ -23,7 +23,7 @@
                     <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-blue-600 text-sm font-semibold uppercase">Total Pessoas</p>
+                                <p class="text-blue-600 text-sm font-semibold uppercase">Total Clientes</p>
                                 <p class="text-3xl font-bold text-blue-900" id="totalPessoas">0</p>
                             </div>
                             <div class="bg-blue-500 rounded-full p-3">
@@ -107,17 +107,17 @@
                         </div>
                     </a>
                     @endif
-                    
-                    <!-- Pessoas Card -->
-                    <a href="{{ route('pessoas.index') }}" class="group">
+
+                    <!-- Clientes Card -->
+                    <a href="{{ route('clientes.index') }}" class="group">
                         <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-green-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Pessoas</h3>
-                            <p class="text-gray-600">Gerencie todas as pessoas cadastradas no sistema</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Clientes</h3>
+                            <p class="text-gray-600">Gerencie todos os clientes cadastrados no sistema</p>
                             <div class="mt-4 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
                                 Acessar
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,16 +127,16 @@
                         </div>
                     </a>
                     
-                    <!-- Nova Pessoa Card -->
-                    <a href="{{ route('pessoas.create') }}" class="group">
+                    <!-- Novo Cliente Card -->
+                    <a href="{{ route('clientes.create') }}" class="group">
                         <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-blue-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg w-16 h-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Nova Pessoa</h3>
-                            <p class="text-gray-600">Adicione uma nova pessoa ao sistema</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Novo Cliente</h3>
+                            <p class="text-gray-600">Adicione um novo cliente ao sistema</p>
                             <div class="mt-4 text-blue-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
                                 Cadastrar
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,7 +214,7 @@
     @push('scripts')
     <script>
         // Buscar estatísticas
-        fetch('/api/pessoas', {
+        fetch('/api/clientes', {
             headers: {
                 'Authorization': `Bearer {{ session('api_token') }}`,
                 'Accept': 'application/json'

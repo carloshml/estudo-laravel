@@ -2,9 +2,9 @@ import './bootstrap';
 import { createApp } from 'vue';
 
 // Importar componentes
-import PessoasList from './components/PessoasList.vue';
-import PessoasCreate from './components/PessoasCreate.vue';
-import PessoasRead from './components/PessoasRead.vue';
+import ClientesList from './components/ClientesList.vue';
+import ClientesCreate from './components/ClientesCreate.vue';
+import ClienteRead from './components/ClienteRead.vue';
 import UltimasPessoas from './components/UltimasPessoas.vue';
 import UsersList from './components/UsersList.vue';
 import UsersCreateUpdate from './components/UsersCreateUpdate.vue';
@@ -48,9 +48,9 @@ window.apiFetch = function(url, options = {}) {
 const app = createApp({});
 
 // Registrar componentes
-app.component('pessoas-list', PessoasList);
-app.component('pessoas-create-update', PessoasCreate);
-app.component('pessoas-read', PessoasRead);
+app.component('clientes-list', ClientesList);
+app.component('clientes-create-update', ClientesCreate);
+app.component('cliente-read', ClienteRead);
 app.component('ultimas-pessoas', UltimasPessoas);
 app.component('users-list', UsersList);
 app.component('users-create-update', UsersCreateUpdate);

@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Cliente;
+use Illuminate\Support\Facades\Storage;
+
+class ClienteController extends Controller
+{
+    public function list()
+    {
+        $clientes = Cliente::all();
+        return response()->json($clientes);
+    }
+
+    public function index()
+    {
+        $clientes = Cliente::all();
+        return view('clientes', compact('clientes'));
+    }
+
+    public function getById($id)
+    {
+        $cliente = Cliente::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        }
+
+        return response()->json($cliente);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'idade' => 'required|integer',
+            'documento' => 'required|string|unique:clientes',
+            'foto' => 'nullable|string',
+        ]);
+
+        $path = null;
+        if ($request->foto) {
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
+            $filename = uniqid() . '.png';
+            Storage::disk('public')->put("fotos/$filename", $image);
+            $path = "fotos/$filename";
+        }
+
+        return Cliente::create([
+            'nome' => $request->nome,
+            'idade' => $request->idade,
+            'documento' => $request->documento,
+            'foto' => $path,
+        ]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $cliente = Cliente::find($id);
+
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        }
+
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'idade' => 'required|integer',
+            'documento' => "required|string|unique:clientes,documento,$id",
+            'foto' => 'nullable|string',
+        ]);
+
+        $path = $cliente->foto;
+        if ($request->foto) {
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->foto));
+            $filename = uniqid() . '.png';
+            Storage::disk('public')->put("fotos/$filename", $image);
+            $path = "fotos/$filename";
+        }
+
+        $cliente->update([
+            'nome' => $request->nome,
+            'idade' => $request->idade,
+            'documento' => $request->documento,
+            'foto' => $path,
+        ]);
+
+        return response()->json($cliente);
+    }
+
+    public function destroy(string $id)
+    {
+        $cliente = Cliente::find($id);
+        if (!$cliente) {
+            return response()->json(['message' => 'Cliente não encontrado'], 404);
+        }
+        $cliente->delete();
+        return response()->json(['message' => 'Cliente excluído com sucesso']);
+    }
+}
