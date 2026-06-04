@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard | Sistema de Locação')
+@section('title', 'Dashboard | Locações')
 
 @section('content')
     <div id="app" class="container mx-auto px-4 py-8 max-w-7xl">
@@ -8,9 +8,8 @@
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
             <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 py-4">
                 <h1 class="text-2xl font-bold text-white">
-                    Bem-vindo, {{ auth()->user()->name }}!
+                   Locações | Bem-vindo, {{ auth()->user()->name }}!
                 </h1>
-                <p class="text-green-100 mt-1">Locação</p>
             </div>
 
             <div class="p-8">
@@ -71,10 +70,9 @@
                 </div>
 
                 <!-- Menu Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- Admin Card (visível apenas para admin/manager) -->
-                    @if(auth()->user()->isAdmin() || auth()->user()->isManager())
+                <!-- Admin Card (visível apenas para admin/manager) -->
+                @if(auth()->user()->isAdmin() || auth()->user()->isManager())
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4">
                         <a href="{{ route('users.index') }}" class="group">
                             <div
                                 class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-purple-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -98,10 +96,6 @@
                                 </div>
                             </div>
                         </a>
-                    @endif
-
-                    <!-- Atividades Card -->
-                    @if(auth()->user()->isAdmin() || auth()->user()->isManager())
                         <a href="{{ route('activities') }}" class="group">
                             <div
                                 class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-orange-500 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -125,8 +119,10 @@
                                 </div>
                             </div>
                         </a>
-                    @endif
 
+                    </div>
+                @endif
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Clientes Card -->
                     <a href="{{ route('clientes.index') }}" class="group">
                         <div
@@ -140,7 +136,7 @@
                                 </svg>
                             </div>
                             <h3 class="text-xl font-bold text-gray-800 mb-2">Clientes</h3>
-                            <p class="text-gray-600">Gerencie todos os clientes cadastrados no sistema</p>
+                            <p class="text-gray-600">Gerencie clientes cadastrados</p>
                             <div
                                 class="mt-4 text-green-600 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
                                 Acessar

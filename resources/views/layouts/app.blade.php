@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Meu Sistema')</title>
+    <title>@yield('title', 'Locações')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="user-id" content="{{ auth()->check() ? auth()->id() : '' }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,7 +17,7 @@
                 <div class="flex items-center space-x-8">
                     <div class="text-white font-bold text-xl">
                         <a href="{{ route('dashboard') }}" class="hover:text-green-400 transition">
-                            Meu Sistema
+                            Locações
                         </a>
                     </div>
 
