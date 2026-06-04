@@ -100,7 +100,21 @@ class LocacaoItemController extends Controller
             'status' => 'required|in:ativo,finalizado,cancelado',
         ]);
 
-        $locacao->update(['status' => $request->status]);
+        $dataToUpdate = ['status' => $request->status];
+
+        // Se o status for 'finalizado', atualiza também o campo 'fim' com a data/hora atual
+        if ($request->status === 'finalizado') {
+            $dataToUpdate['fim'] = now();
+        }
+
+        // Se o status for 'ativo' e a locação estava finalizada, podemos opcionalmente redefinir o fim? 
+        // (Comentado - depende da regra de negócio)
+        // if ($request->status === 'ativo' && $locacao->status === 'finalizado') {
+        //     $dataToUpdate['fim'] = null; // ou manter a data anterior
+        // }
+
+        $locacao->update($dataToUpdate);
+
         return response()->json($locacao->load(['item', 'cliente']));
     }
 }
