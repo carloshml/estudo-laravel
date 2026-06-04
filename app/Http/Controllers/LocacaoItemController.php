@@ -7,9 +7,31 @@ use App\Models\LocacaoItem;
 
 class LocacaoItemController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
-        $locacoes = LocacaoItem::with(['item', 'cliente'])->orderBy('inicio', 'desc')->get();
+        $query = LocacaoItem::with(['item', 'cliente']);
+
+        if ($request->filled('inicio')) {
+            $query->where('inicio', '>=', $request->inicio);
+        }
+
+        if ($request->filled('fim')) {
+            $query->where('fim', '<=', $request->fim);
+        }
+
+        if ($request->filled('cliente_id')) {
+            $query->where('cliente_id', $request->cliente_id);
+        }
+
+        if ($request->filled('item_id')) {
+            $query->where('item_id', $request->item_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $locacoes = $query->orderBy('inicio', 'desc')->get();
         return response()->json($locacoes);
     }
 

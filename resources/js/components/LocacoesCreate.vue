@@ -35,9 +35,10 @@
           <VueDatePicker
             v-model="form.inicio"
             :enable-time-picker="true"
-            :format="'dd/MM/yyyy HH:mm'"
+            :formats="dateFormats"
+            model-type="yyyy-MM-dd HH:mm:ss"
+            :start-time="{ hours: 0, minutes: 0 }"
             auto-apply
-            text-input
             placeholder="Selecione data e hora"
             class="w-full"
           />
@@ -48,9 +49,10 @@
           <VueDatePicker
             v-model="form.fim"
             :enable-time-picker="true"
-            :format="'dd/MM/yyyy HH:mm'"
+            :formats="dateFormats"
+            model-type="yyyy-MM-dd HH:mm:ss"
+            :start-time="{ hours: 23, minutes: 59 }"
             auto-apply
-            text-input
             placeholder="Selecione data e hora"
             class="w-full"
           />
@@ -86,6 +88,7 @@ export default {
   data() {
     return {
       form: { item_id: '', cliente_id: '', location: '', inicio: null, fim: null, status: 'ativo' },
+      dateFormats: { input: 'dd/MM/yyyy HH:mm' },
       items: [], clientes: [], erros: {}
     }
   },
@@ -120,8 +123,8 @@ export default {
             item_id: data.item_id,
             cliente_id: data.cliente_id,
             location: data.location,
-            inicio: data.inicio ? new Date(data.inicio) : null,
-            fim: data.fim ? new Date(data.fim) : null,
+            inicio: data.inicio || null,
+            fim: data.fim || null,
             status: data.status
           };
         });
@@ -136,13 +139,7 @@ export default {
       const url = this.id > 0 ? `/api/locacoes/${this.id}` : '/api/locacoes';
       const method = this.id > 0 ? 'PUT' : 'POST';
 
-      const payload = {
-        ...this.form,
-        inicio: this.formatDateForApi(this.form.inicio),
-        fim: this.formatDateForApi(this.form.fim),
-      };
-
-      fetch(url, { method, headers: this.getHeaders(), body: JSON.stringify(payload) })
+      fetch(url, { method, headers: this.getHeaders(), body: JSON.stringify(this.form) })
         .then(async res => {
           if (!res.ok) { const d = await res.json(); this.erros = d.errors || {}; return; }
           this.erros = {};
