@@ -25,37 +25,24 @@
 
       <div>
         <label class="block text-gray-700 font-medium mb-1">Localização</label>
-        <input v-model="form.location" type="text" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300" placeholder="Ex: Sala 301, Prédio A, Depósito">
+        <input v-model="form.location" type="text" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300"
+          placeholder="Ex: Sala 301, Prédio A, Depósito">
         <p v-if="erros.location" class="text-red-600 text-sm mt-1">{{ erros.location[0] }}</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-gray-700 font-medium mb-1">Início</label>
-          <VueDatePicker
-            v-model="form.inicio"
-            :enable-time-picker="true"
-            :formats="dateFormats"
-            model-type="yyyy-MM-dd HH:mm:ss"
-            :start-time="{ hours: 0, minutes: 0 }"
-            auto-apply
-            placeholder="Selecione data e hora"
-            class="w-full"
-          />
+          <VueDatePicker v-model="form.inicio" :enable-time-picker="true" :formats="dateFormats"
+            model-type="yyyy-MM-dd HH:mm:ss" :start-time="{ hours: 0, minutes: 0 }" auto-apply
+            placeholder="Selecione data e hora" class="w-full" />
           <p v-if="erros.inicio" class="text-red-600 text-sm mt-1">{{ erros.inicio[0] }}</p>
         </div>
         <div>
           <label class="block text-gray-700 font-medium mb-1">Fim</label>
-          <VueDatePicker
-            v-model="form.fim"
-            :enable-time-picker="true"
-            :formats="dateFormats"
-            model-type="yyyy-MM-dd HH:mm:ss"
-            :start-time="{ hours: 23, minutes: 59 }"
-            auto-apply
-            placeholder="Selecione data e hora"
-            class="w-full"
-          />
+          <VueDatePicker v-model="form.fim" :enable-time-picker="true" :formats="dateFormats"
+            model-type="yyyy-MM-dd HH:mm:ss" :start-time="{ hours: 23, minutes: 59 }" auto-apply
+            placeholder="Selecione data e hora" class="w-full" />
           <p v-if="erros.fim" class="text-red-600 text-sm mt-1">{{ erros.fim[0] }}</p>
         </div>
       </div>
@@ -88,7 +75,9 @@ export default {
   data() {
     return {
       form: { item_id: '', cliente_id: '', location: '', inicio: null, fim: null, status: 'ativo' },
-      dateFormats: { input: 'dd/MM/yyyy HH:mm' },
+      dateFormats: {
+        input: 'dd.MM.yyyy - HH:mm'
+      },
       items: [], clientes: [], erros: {}
     }
   },
@@ -133,7 +122,7 @@ export default {
       if (!date) return null;
       const d = date instanceof Date ? date : new Date(date);
       const pad = (n) => String(n).padStart(2, '0');
-      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
     },
     salvar() {
       const url = this.id > 0 ? `/api/locacoes/${this.id}` : '/api/locacoes';
