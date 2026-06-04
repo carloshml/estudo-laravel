@@ -32,12 +32,28 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-gray-700 font-medium mb-1">Início</label>
-          <input v-model="form.inicio" type="datetime-local" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300">
+          <VueDatePicker
+            v-model="form.inicio"
+            :enable-time-picker="true"
+            :format="'dd/MM/yyyy HH:mm'"
+            auto-apply
+            text-input
+            placeholder="Selecione data e hora"
+            class="w-full"
+          />
           <p v-if="erros.inicio" class="text-red-600 text-sm mt-1">{{ erros.inicio[0] }}</p>
         </div>
         <div>
           <label class="block text-gray-700 font-medium mb-1">Fim</label>
-          <input v-model="form.fim" type="datetime-local" class="w-full border rounded-lg p-2 focus:ring focus:ring-amber-300">
+          <VueDatePicker
+            v-model="form.fim"
+            :enable-time-picker="true"
+            :format="'dd/MM/yyyy HH:mm'"
+            auto-apply
+            text-input
+            placeholder="Selecione data e hora"
+            class="w-full"
+          />
           <p v-if="erros.fim" class="text-red-600 text-sm mt-1">{{ erros.fim[0] }}</p>
         </div>
       </div>
@@ -61,11 +77,15 @@
 </template>
 
 <script>
+import { VueDatePicker } from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
+  components: { VueDatePicker },
   props: { id: { type: Number, default: 0 } },
   data() {
     return {
-      form: { item_id: '', cliente_id: '', location: '', inicio: '', fim: '', status: 'ativo' },
+      form: { item_id: '', cliente_id: '', location: '', inicio: null, fim: null, status: 'ativo' },
       items: [], clientes: [], erros: {}
     }
   },
@@ -100,17 +120,29 @@ export default {
             item_id: data.item_id,
             cliente_id: data.cliente_id,
             location: data.location,
-            inicio: data.inicio ? data.inicio.slice(0, 16) : '',
-            fim: data.fim ? data.fim.slice(0, 16) : '',
+            inicio: data.inicio ? new Date(data.inicio) : null,
+            fim: data.fim ? new Date(data.fim) : null,
             status: data.status
           };
         });
+    },
+    formatDateForApi(date) {
+      if (!date) return null;
+      const d = date instanceof Date ? date : new Date(date);
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
     },
     salvar() {
       const url = this.id > 0 ? `/api/locacoes/${this.id}` : '/api/locacoes';
       const method = this.id > 0 ? 'PUT' : 'POST';
 
-      fetch(url, { method, headers: this.getHeaders(), body: JSON.stringify(this.form) })
+      const payload = {
+        ...this.form,
+        inicio: this.formatDateForApi(this.form.inicio),
+        fim: this.formatDateForApi(this.form.fim),
+      };
+
+      fetch(url, { method, headers: this.getHeaders(), body: JSON.stringify(payload) })
         .then(async res => {
           if (!res.ok) { const d = await res.json(); this.erros = d.errors || {}; return; }
           this.erros = {};
